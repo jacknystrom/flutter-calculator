@@ -5,6 +5,8 @@ void main() {
 }
 
 class CalculatorApp extends StatelessWidget {
+  const CalculatorApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,6 +20,8 @@ class CalculatorApp extends StatelessWidget {
 }
 
 class CalculatorScreen extends StatefulWidget {
+  const CalculatorScreen({super.key});
+
   @override
   _CalculatorScreenState createState() => _CalculatorScreenState();
 }
@@ -85,6 +89,22 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
         _expression=_expression.replaceRange(leftIndex,rightIndex+1,temp.toString());
         
          i=0;
+      }else if(_expression[i]=='%'){
+        
+        int leftIndex=findLeftIndex(i);
+        int rightIndex;
+        if(_expression[i+1]=='-'){
+           rightIndex=findRightIndex(i+1);
+        
+        }else{
+         rightIndex=findRightIndex(i);
+        }
+        double leftValue=double.parse(_expression.substring(leftIndex,i));
+        double rightValue=double.parse(_expression.substring(i+1,rightIndex+1));
+        double temp=leftValue%rightValue;
+        _expression=_expression.replaceRange(leftIndex,rightIndex+1,temp.toString());
+        
+         i=0;
       }
     }
     //evaluate addition and subtraction
@@ -148,17 +168,17 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Jack Nystroms Calculator'),
+        title: const Text('Jack Nystroms Calculator'),
       ),
       body: Column(
         children: [
           Expanded(
             child: Container(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               alignment: Alignment.bottomRight,
               child: Text(
                 _expression,
-                style: TextStyle(fontSize: 24),
+                style: const TextStyle(fontSize: 24),
               ),
             ),
           ),
@@ -199,9 +219,9 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
               Expanded(
                 child: ElevatedButton(
                   onPressed: _clearExpression,
-                  child: Text('Clear'),
+                  child: const Text('Clear'),
                 ),
-              ),
+              ),_buildButton('%')
             ],
           ),
         ],
